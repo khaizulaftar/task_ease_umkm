@@ -9,6 +9,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+import com.khaizul.task_ease_umkm.data.local.dao.TaskDao
 
 @Module
 @InstallIn(SingletonComponent::class)

@@ -10,6 +10,8 @@ import androidx.work.WorkerParameters
 import com.khaizul.task_ease_umkm.R
 import com.khaizul.task_ease_umkm.data.local.database.AppDatabase
 import java.util.Date
+import kotlinx.coroutines.flow.first
+
 
 class NotificationWorker(
     context: Context,
@@ -20,7 +22,8 @@ class NotificationWorker(
         val currentDate = Date()
 
         // Get overdue tasks
-        val overdueTasks = database.taskDao().getOverdueTasks(currentDate)
+        val overdueTasks = database.taskDao().getOverdueTasks(currentDate).first()
+
 
         if (overdueTasks.isNotEmpty()) {
             showNotification(
