@@ -90,4 +90,20 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.51")
     kapt("com.google.dagger:hilt-compiler:2.51")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    // Jetpack Compose UI Testing
+    androidTestImplementation ("androidx.compose.ui:ui-test-junit4:1.6.1")
+    debugImplementation ("androidx.compose.ui:ui-test-manifest:1.6.1")
+
+// Hilt testing
+    androidTestImplementation ("com.google.dagger:hilt-android-testing:2.50")
+    kaptAndroidTest ("com.google.dagger:hilt-android-compiler:2.50")
+
+// Navigation testing (untuk TestNavHostController)
+    androidTestImplementation ("androidx.navigation:navigation-testing:2.7.7")
+
+
+    androidTestImplementation ("androidx.compose.ui:ui-test-junit4:1.6.0")
+    debugImplementation ("androidx.compose.ui:ui-test-manifest:1.6.0")
+
 }

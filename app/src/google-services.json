@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "222167539337",
+    "project_id": "taskease-umkm",
+    "storage_bucket": "taskease-umkm.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:222167539337:android:bccf90dbb57f5b3e287058",
+        "android_client_info": {
+          "package_name": "com.khaizul.task_ease_umkm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIzi0kG56wVr_nYPvvMwmppUCqxcJHO6A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
