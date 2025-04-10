@@ -1,9 +1,7 @@
 package com.khaizul.task_ease_umkm.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,6 +28,17 @@ fun AppNavigation() {
             )
         }
 
+        // Route tanpa argumen (untuk tambah task)
+        composable(Screen.TaskEdit.route) {
+            val viewModel = hiltViewModel<TaskEditViewModel>()
+            TaskEditScreen(
+                taskId = null,
+                navController = navController,
+                viewModel = viewModel
+            )
+        }
+
+        // Route dengan argumen (untuk edit task)
         composable(
             route = "${Screen.TaskEdit.route}/{taskId}",
             arguments = listOf(
