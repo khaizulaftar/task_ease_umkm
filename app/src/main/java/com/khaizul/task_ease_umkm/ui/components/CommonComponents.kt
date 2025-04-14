@@ -1,43 +1,49 @@
 package com.khaizul.task_ease_umkm.ui.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import java.text.SimpleDateFormat
+import java.util.*
+import androidx.compose.ui.window.DialogProperties
 
 @Composable
 fun AppButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    icon: ImageVector? = null,
+    colors: ButtonColors = ButtonDefaults.buttonColors()
 ) {
     Button(
         onClick = onClick,
         modifier = modifier,
-        enabled = enabled
+        enabled = enabled,
+        colors = colors
     ) {
-        Text(text = text)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            icon?.let {
+                Icon(
+                    imageVector = it,
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+            }
+            Text(text = text)
+        }
     }
 }
 
@@ -55,16 +61,15 @@ fun AppDatePicker(
     Column(modifier = modifier) {
         OutlinedTextField(
             value = selectedDate?.let {
-                // Format date to readable string
-                "Selected date" // Replace with actual date formatting
+                SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date(it))
             } ?: "",
             onValueChange = {},
             label = { Text(label) },
             readOnly = true,
             modifier = Modifier.fillMaxWidth(),
             trailingIcon = {
-                TextButton(onClick = { showDatePicker = true }) {
-                    Text("Select")
+                IconButton(onClick = { showDatePicker = true }) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Select date")
                 }
             }
         )
@@ -98,6 +103,66 @@ fun AppDatePicker(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+fun AppTimePicker(
+    label: String,
+    selectedTime: Long?,
+    onTimeSelected: (Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var showTimePicker by remember { mutableStateOf(false) }
+    val timePickerState = rememberTimePickerState(
+        initialHour = 12,
+        initialMinute = 0,
+        is24Hour = true
+    )
+
+    Column(modifier = modifier) {
+        // ... (your existing text field code)
+
+        if (showTimePicker) {
+            AlertDialog(
+                onDismissRequest = { showTimePicker = false },
+                properties = DialogProperties(), // Add this line
+                content = {
+                    Column {
+                        TimePicker(state = timePickerState)
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            TextButton(
+                                onClick = {
+                                    val cal = Calendar.getInstance().apply {
+                                        set(Calendar.HOUR_OF_DAY, timePickerState.hour)
+                                        set(Calendar.MINUTE, timePickerState.minute)
+                                        set(Calendar.SECOND, 0)
+                                        set(Calendar.MILLISECOND, 0)
+                                        set(Calendar.YEAR, 1970)
+                                        set(Calendar.MONTH, 0)
+                                        set(Calendar.DAY_OF_MONTH, 1)
+                                    }
+                                    onTimeSelected(cal.timeInMillis)
+                                    showTimePicker = false
+                                }
+                            ) {
+                                Text("OK")
+                            }
+                            Spacer(modifier = Modifier.width(8.dp))
+                            TextButton(
+                                onClick = { showTimePicker = false }
+                            ) {
+                                Text("Cancel")
+                            }
+                        }
+                    }
+                }
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 fun AppDropdownMenu(
     label: String,
     options: List<String>,
@@ -118,9 +183,7 @@ fun AppDropdownMenu(
             readOnly = true,
             label = { Text(label) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            modifier = Modifier
-                .menuAnchor()
-                .fillMaxWidth()
+            modifier = Modifier.menuAnchor().fillMaxWidth()
         )
 
         ExposedDropdownMenu(
@@ -175,4 +238,26 @@ fun AppTextField(
             )
         }
     }
+}
+
+@Composable
+fun PriorityChip(
+    label: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    FilterChip(
+        selected = selected,
+        onClick = onClick,
+        label = { Text(label) },
+        colors = FilterChipDefaults.filterChipColors(
+            selectedContainerColor = when (label) {
+                "High" -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.3f)
+                "Medium" -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
+                "Low" -> MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.3f)
+                else -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
+            },
+            selectedLabelColor = MaterialTheme.colorScheme.onSurface
+        )
+    )
 }

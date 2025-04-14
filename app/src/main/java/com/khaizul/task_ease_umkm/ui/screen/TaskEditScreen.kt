@@ -1,48 +1,26 @@
 package com.khaizul.task_ease_umkm.ui.screen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.khaizul.task_ease_umkm.R
-import com.khaizul.task_ease_umkm.ui.components.AppButton
-import com.khaizul.task_ease_umkm.ui.components.AppDatePicker
-import com.khaizul.task_ease_umkm.ui.components.AppDropdownMenu
-import com.khaizul.task_ease_umkm.ui.components.AppTextField
-import com.khaizul.task_ease_umkm.viewmodel.TaskEditViewModel
-import java.util.Date
 import com.khaizul.task_ease_umkm.data.local.entity.TaskEntity
+import com.khaizul.task_ease_umkm.ui.components.*
+import com.khaizul.task_ease_umkm.viewmodel.TaskEditViewModel
+import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskEditScreen(
     taskId: Int?,
     navController: NavController,
-    viewModel: TaskEditViewModel = hiltViewModel()
+    viewModel: TaskEditViewModel
 ) {
     val task by viewModel.task.collectAsState()
     val categories = listOf("Keuangan", "Pemasaran", "Operasional", "Lainnya")
@@ -51,24 +29,26 @@ fun TaskEditScreen(
     var description by remember { mutableStateOf("") }
     var category by remember { mutableStateOf(categories[0]) }
     var dueDate by remember { mutableStateOf<Long?>(null) }
+    var dueTime by remember { mutableStateOf<Long?>(null) }
+    var priority by remember { mutableStateOf(2) }
 
     var isTitleError by remember { mutableStateOf(false) }
     var isDateError by remember { mutableStateOf(false) }
 
-    // Load task if editing
     LaunchedEffect(taskId) {
         taskId?.let {
             viewModel.loadTask(it)
         }
     }
 
-    // Update fields when task is loaded
     LaunchedEffect(task) {
         task?.let {
             title = it.title
             description = it.description
             category = it.category
             dueDate = it.dueDate.time
+            dueTime = it.dueTime?.time
+            priority = it.priority
         }
     }
 
@@ -127,6 +107,34 @@ fun TaskEditScreen(
                 }
             )
 
+            AppTimePicker(
+                label = "Due Time (optional)",
+                selectedTime = dueTime,
+                onTimeSelected = { dueTime = it }
+            )
+
+            Text("Priority", style = MaterialTheme.typography.labelMedium)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                PriorityChip(
+                    label = "High",
+                    selected = priority == 1,
+                    onClick = { priority = 1 }
+                )
+                PriorityChip(
+                    label = "Medium",
+                    selected = priority == 2,
+                    onClick = { priority = 2 }
+                )
+                PriorityChip(
+                    label = "Low",
+                    selected = priority == 3,
+                    onClick = { priority = 3 }
+                )
+            }
+
             AppButton(
                 text = if (taskId == null) "Add Task" else "Update Task",
                 onClick = {
@@ -144,12 +152,16 @@ fun TaskEditScreen(
                         title = title,
                         description = description,
                         category = category,
-                        dueDate = Date(dueDate!!)
+                        priority = priority,
+                        dueDate = Date(dueDate!!),
+                        dueTime = dueTime?.let { Date(it) }
                     ) ?: TaskEntity(
                         title = title,
                         description = description,
                         category = category,
-                        dueDate = Date(dueDate!!)
+                        priority = priority,
+                        dueDate = Date(dueDate!!),
+                        dueTime = dueTime?.let { Date(it) }
                     )
 
                     if (taskId == null) {
@@ -162,6 +174,24 @@ fun TaskEditScreen(
                 },
                 modifier = Modifier.fillMaxWidth()
             )
+
+            if (taskId != null) {
+                Spacer(modifier = Modifier.height(8.dp))
+                AppButton(
+                    text = "Delete Task",
+                    onClick = {
+                        task?.let {
+                            viewModel.deleteTask(it)
+                            navController.popBackStack()
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.errorContainer,
+                        contentColor = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                )
+            }
         }
     }
 }

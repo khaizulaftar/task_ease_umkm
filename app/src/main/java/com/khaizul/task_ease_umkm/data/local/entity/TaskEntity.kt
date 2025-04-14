@@ -10,7 +10,9 @@ data class TaskEntity(
     val title: String,
     val description: String,
     val category: String,
+    val priority: Int = 2, // 1=High, 2=Medium, 3=Low
     val dueDate: Date,
+    val dueTime: Date? = null,
     val isCompleted: Boolean = false,
     val createdAt: Date = Date(),
     val isSynced: Boolean = false

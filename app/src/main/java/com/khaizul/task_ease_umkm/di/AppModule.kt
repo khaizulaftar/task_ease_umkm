@@ -3,9 +3,9 @@ package com.khaizul.task_ease_umkm.di
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.khaizul.task_ease_umkm.data.local.dao.TaskDao
 import com.khaizul.task_ease_umkm.data.local.database.AppDatabase
 import com.khaizul.task_ease_umkm.data.repository.TaskRepository
+import com.khaizul.task_ease_umkm.data.local.dao.TaskDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,22 +1,17 @@
 package com.khaizul.task_ease_umkm.data.local.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
+import androidx.room.TypeConverters
 import com.khaizul.task_ease_umkm.data.local.dao.TaskDao
 import com.khaizul.task_ease_umkm.data.local.entity.TaskEntity
-import androidx.room.TypeConverter
-import androidx.room.TypeConverters
 import java.util.Date
-
 
 @Database(
     entities = [TaskEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
-
 @TypeConverters(AppDatabase.Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
@@ -31,12 +26,15 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "task_ease_db"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }
         }
     }
+
     class Converters {
         @TypeConverter
         fun fromTimestamp(value: Long?): Date? = value?.let { Date(it) }
@@ -44,5 +42,4 @@ abstract class AppDatabase : RoomDatabase() {
         @TypeConverter
         fun dateToTimestamp(date: Date?): Long? = date?.time
     }
-
 }
