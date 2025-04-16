@@ -9,7 +9,6 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.khaizul.task_ease_umkm.data.local.database.AppDatabase
 import kotlinx.coroutines.flow.first
-import java.text.SimpleDateFormat
 import com.khaizul.task_ease_umkm.R
 import java.util.*
 
@@ -29,19 +28,20 @@ class NotificationWorker(
         now.set(Calendar.MILLISECOND, 0)
         val dateOnly = Date(now.timeInMillis)
 
-        // Get current time for time-specific tasks
-        val currentTime = Calendar.getInstance().run {
-            set(Calendar.YEAR, 1970)
-            set(Calendar.MONTH, 0)
-            set(Calendar.DAY_OF_MONTH, 1)
-            Date(timeInMillis)
-        }
+        // Get current hour and minute
+        val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        val currentMinute = Calendar.getInstance().get(Calendar.MINUTE)
 
         // Get overdue tasks (past due date)
         val overdueTasks = database.taskDao().getOverdueTasks(dateOnly).first()
 
         // Get due today tasks with specific time that's passed
-        val timeDueTasks = database.taskDao().getDueTasks(dateOnly, currentTime).first()
+        val timeDueTasks = database.taskDao().getAllTasks().first().filter { task ->
+            task.dueDate == dateOnly &&
+                    (task.dueHour < currentHour ||
+                            (task.dueHour == currentHour && task.dueMinute <= currentMinute)) &&
+                    !task.isCompleted
+        }
 
         // Combine and show notification
         val allDueTasks = overdueTasks + timeDueTasks
@@ -51,8 +51,8 @@ class NotificationWorker(
                 append("Tugas yang perlu perhatian:\n")
                 allDueTasks.take(3).forEach { task ->
                     append("• ${task.title}")
-                    if (task.dueTime != null) {
-                        append(" (${SimpleDateFormat("HH:mm", Locale.getDefault()).format(task.dueTime)})")
+                    if (task.hasTimeSet()) {
+                        append(" (${task.getFormattedTime()})")
                     }
                     append("\n")
                 }

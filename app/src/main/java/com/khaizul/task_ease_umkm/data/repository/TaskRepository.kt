@@ -22,10 +22,7 @@ class TaskRepository @Inject constructor(
 
     suspend fun insertTask(task: TaskEntity) {
         try {
-            // First save to local database
             taskDao.insertTask(task.copy(isSynced = false))
-
-            // Try to sync with Firebase in background
             ioScope.launch {
                 trySyncWithFirebase(task)
             }
@@ -37,10 +34,7 @@ class TaskRepository @Inject constructor(
 
     suspend fun updateTask(task: TaskEntity) {
         try {
-            // First update local database
             taskDao.updateTask(task.copy(isSynced = false))
-
-            // Try to sync with Firebase in background
             ioScope.launch {
                 trySyncWithFirebase(task)
             }
@@ -52,10 +46,7 @@ class TaskRepository @Inject constructor(
 
     suspend fun deleteTask(task: TaskEntity) {
         try {
-            // First delete from local database
             taskDao.deleteTask(task)
-
-            // Try to delete from Firebase if previously synced
             if (task.isSynced) {
                 ioScope.launch {
                     try {
@@ -97,7 +88,6 @@ class TaskRepository @Inject constructor(
 
     private suspend fun syncTaskWithFirebase(task: TaskEntity) {
         val userId = auth.currentUser?.uid ?: return
-
         firestore.collection("users").document(userId)
             .collection("tasks").document(task.id.toString())
             .set(task.toFirestoreMap())
@@ -106,7 +96,6 @@ class TaskRepository @Inject constructor(
 
     private suspend fun deleteTaskFromFirebase(taskId: Int) {
         val userId = auth.currentUser?.uid ?: return
-
         firestore.collection("users").document(userId)
             .collection("tasks").document(taskId.toString())
             .delete()
@@ -115,16 +104,17 @@ class TaskRepository @Inject constructor(
 }
 
 fun TaskEntity.toFirestoreMap(): Map<String, Any> {
-    return mutableMapOf<String, Any>(
+    return mapOf(
         "id" to id,
         "title" to title,
         "description" to description,
         "category" to category,
         "priority" to priority,
         "dueDate" to dueDate.time,
+        "dueHour" to dueHour,
+        "dueMinute" to dueMinute,
         "isCompleted" to isCompleted,
-        "createdAt" to createdAt.time
-    ).apply {
-        dueTime?.time?.let { put("dueTime", it) }
-    }
+        "createdAt" to createdAt.time,
+        "isSynced" to isSynced
+    )
 }

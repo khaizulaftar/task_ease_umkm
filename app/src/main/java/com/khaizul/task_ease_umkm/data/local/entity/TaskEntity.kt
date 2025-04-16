@@ -10,10 +10,19 @@ data class TaskEntity(
     val title: String,
     val description: String,
     val category: String,
-    val priority: Int = 2, // 1=High, 2=Medium, 3=Low
+    val priority: Int = 2, // 1 = High, 2 = Medium, 3 = Low
     val dueDate: Date,
-    val dueTime: Date? = null,
+    val dueHour: Int = 0,
+    val dueMinute: Int = 0,
     val isCompleted: Boolean = false,
     val createdAt: Date = Date(),
     val isSynced: Boolean = false
-)
+) {
+    fun getFormattedTime(): String {
+        return "%02d:%02d".format(dueHour, dueMinute)
+    }
+
+    fun hasTimeSet(): Boolean {
+        return dueHour != 0 || dueMinute != 0
+    }
+}

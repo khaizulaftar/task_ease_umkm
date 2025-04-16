@@ -17,7 +17,6 @@ import com.khaizul.task_ease_umkm.data.local.entity.TaskEntity
 import com.khaizul.task_ease_umkm.ui.components.*
 import com.khaizul.task_ease_umkm.viewmodel.TaskViewModel
 import java.text.SimpleDateFormat
-
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -145,7 +144,6 @@ fun TaskItem(
     onDeleteTask: () -> Unit
 ) {
     val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-    val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
     Card(
         onClick = onTaskClick,
@@ -179,9 +177,9 @@ fun TaskItem(
                         text = dateFormat.format(task.dueDate),
                         style = MaterialTheme.typography.labelMedium
                     )
-                    if (task.dueTime != null) {
+                    if (task.hasTimeSet()) {
                         Text(
-                            text = timeFormat.format(task.dueTime),
+                            text = task.getFormattedTime(),
                             style = MaterialTheme.typography.labelSmall
                         )
                     }
@@ -212,12 +210,12 @@ fun TaskItem(
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.height(IntrinsicSize.Min) // Pastikan tinggi row sesuai konten
+                    modifier = Modifier.height(IntrinsicSize.Min)
                 ) {
                     IconButton(
                         onClick = { onDeleteTask() },
                         modifier = Modifier
-                            .size(40.dp) // Ukuran lebih besar untuk touch target yang baik
+                            .size(40.dp)
                             .padding(4.dp)
                     ) {
                         Icon(
@@ -227,7 +225,7 @@ fun TaskItem(
                         )
                     }
 
-                    Spacer(modifier = Modifier.width(2.dp)) // Jarak antara icon dan tombol
+                    Spacer(modifier = Modifier.width(2.dp))
 
                     FilledTonalButton(
                         onClick = onCompleteTask,

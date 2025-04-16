@@ -9,7 +9,7 @@ import java.util.Date
 
 @Database(
     entities = [TaskEntity::class],
-    version = 2,
+    version = 3,  // ⬅️ Naikkan versi dari 2 ke 3 (karena Anda mengubah schema)
     exportSchema = false
 )
 @TypeConverters(AppDatabase.Converters::class)
@@ -27,7 +27,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "task_ease_db"
                 )
-                    .fallbackToDestructiveMigration()
+                    .fallbackToDestructiveMigration() // ⬅️ Biarkan sementara untuk development
                     .build()
                 INSTANCE = instance
                 instance

@@ -3,17 +3,17 @@ package com.khaizul.task_ease_umkm.ui.screen
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.khaizul.task_ease_umkm.data.local.entity.TaskEntity
 import com.khaizul.task_ease_umkm.ui.components.*
 import com.khaizul.task_ease_umkm.viewmodel.TaskEditViewModel
 import java.util.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
+import com.khaizul.task_ease_umkm.data.local.entity.TaskEntity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,7 +29,8 @@ fun TaskEditScreen(
     var description by remember { mutableStateOf("") }
     var category by remember { mutableStateOf(categories[0]) }
     var dueDate by remember { mutableStateOf<Long?>(null) }
-    var dueTime by remember { mutableStateOf<Long?>(null) }
+    var dueHour by remember { mutableIntStateOf(0) }
+    var dueMinute by remember { mutableIntStateOf(0) }
     var priority by remember { mutableStateOf(2) }
 
     var isTitleError by remember { mutableStateOf(false) }
@@ -47,7 +48,8 @@ fun TaskEditScreen(
             description = it.description
             category = it.category
             dueDate = it.dueDate.time
-            dueTime = it.dueTime?.time
+            dueHour = it.dueHour
+            dueMinute = it.dueMinute
             priority = it.priority
         }
     }
@@ -108,9 +110,13 @@ fun TaskEditScreen(
             )
 
             AppTimePicker(
-                label = "Due Time (optional)",
-                selectedTime = dueTime,
-                onTimeSelected = { dueTime = it }
+                label = "Due Time",
+                selectedHour = dueHour,
+                selectedMinute = dueMinute,
+                onTimeSelected = { hour, minute ->
+                    dueHour = hour
+                    dueMinute = minute
+                }
             )
 
             Text("Priority", style = MaterialTheme.typography.labelMedium)
@@ -154,14 +160,16 @@ fun TaskEditScreen(
                         category = category,
                         priority = priority,
                         dueDate = Date(dueDate!!),
-                        dueTime = dueTime?.let { Date(it) }
+                        dueHour = dueHour,
+                        dueMinute = dueMinute
                     ) ?: TaskEntity(
                         title = title,
                         description = description,
                         category = category,
                         priority = priority,
                         dueDate = Date(dueDate!!),
-                        dueTime = dueTime?.let { Date(it) }
+                        dueHour = dueHour,
+                        dueMinute = dueMinute
                     )
 
                     if (taskId == null) {
