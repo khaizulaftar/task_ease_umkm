@@ -38,9 +38,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideTaskRepository(
-        taskDao: TaskDao,
-        firestore: FirebaseFirestore,
-        auth: FirebaseAuth
+        taskDao: TaskDao, firestore: FirebaseFirestore, auth: FirebaseAuth
     ): TaskRepository {
         return TaskRepository(taskDao, firestore, auth)
     }

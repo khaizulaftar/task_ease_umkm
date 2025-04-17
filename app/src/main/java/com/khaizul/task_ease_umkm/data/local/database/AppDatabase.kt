@@ -8,9 +8,7 @@ import com.khaizul.task_ease_umkm.data.local.entity.TaskEntity
 import java.util.Date
 
 @Database(
-    entities = [TaskEntity::class],
-    version = 3,  // ⬅️ Naikkan versi dari 2 ke 3 (karena Anda mengubah schema)
-    exportSchema = false
+    entities = [TaskEntity::class], version = 3, exportSchema = false
 )
 @TypeConverters(AppDatabase.Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -23,11 +21,8 @@ abstract class AppDatabase : RoomDatabase() {
         fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "task_ease_db"
-                )
-                    .fallbackToDestructiveMigration() // ⬅️ Biarkan sementara untuk development
+                    context.applicationContext, AppDatabase::class.java, "task_ease_db"
+                ).fallbackToDestructiveMigration() // untuk development
                     .build()
                 INSTANCE = instance
                 instance

@@ -18,9 +18,7 @@ import com.khaizul.task_ease_umkm.data.local.entity.TaskEntity
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskEditScreen(
-    taskId: Int?,
-    navController: NavController,
-    viewModel: TaskEditViewModel
+    taskId: Int?, navController: NavController, viewModel: TaskEditViewModel
 ) {
     val task by viewModel.task.collectAsState()
     val categories = listOf("Keuangan", "Pemasaran", "Operasional", "Lainnya")
@@ -37,9 +35,7 @@ fun TaskEditScreen(
     var isDateError by remember { mutableStateOf(false) }
 
     LaunchedEffect(taskId) {
-        taskId?.let {
-            viewModel.loadTask(it)
-        }
+        taskId?.let { viewModel.loadTask(it) }
     }
 
     LaunchedEffect(task) {
@@ -54,101 +50,103 @@ fun TaskEditScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(if (taskId == null) "Add Task" else "Edit Task") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                    }
+    Scaffold(topBar = {
+        TopAppBar(
+            title = { Text(if (taskId == null) "Add New Task" else "Edit Task") },
+            navigationIcon = {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                 }
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
             )
-        }
-    ) { padding ->
+        )
+    }) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // Title Field
             AppTextField(
-                label = "Title",
+                label = "Judul",
                 value = title,
                 onValueChange = {
                     title = it
                     isTitleError = false
                 },
                 isError = isTitleError,
-                errorMessage = "Title cannot be empty"
+                errorMessage = "Title is required",
+                modifier = Modifier.fillMaxWidth()
             )
 
+            // Description Field
             AppTextField(
-                label = "Description",
+                label = "Keterangan",
                 value = description,
                 onValueChange = { description = it },
                 singleLine = false,
-                maxLines = 5
+                maxLines = 5,
+                modifier = Modifier.fillMaxWidth()
             )
 
+            // Category Dropdown
             AppDropdownMenu(
-                label = "Category",
+                label = "Kategori",
                 options = categories,
                 selectedOption = category,
-                onOptionSelected = { category = it }
+                onOptionSelected = { category = it },
+                modifier = Modifier.fillMaxWidth()
             )
 
+            // Due Date Picker
             AppDatePicker(
-                label = "Due Date",
-                selectedDate = dueDate,
-                onDateSelected = {
+                label = "Tenggal", selectedDate = dueDate, onDateSelected = {
                     dueDate = it
                     isDateError = false
-                }
+                }, modifier = Modifier.fillMaxWidth()
             )
 
+            // Time Picker
             AppTimePicker(
-                label = "Due Time",
+                label = "Waktu",
                 selectedHour = dueHour,
                 selectedMinute = dueMinute,
                 onTimeSelected = { hour, minute ->
                     dueHour = hour
                     dueMinute = minute
-                }
+                },
+                modifier = Modifier.fillMaxWidth()
             )
 
-            Text("Priority", style = MaterialTheme.typography.labelMedium)
+            // Priority Section
+            Text(
+                text = "Prioritas",
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+            )
+
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                PriorityChip(
-                    label = "High",
-                    selected = priority == 1,
-                    onClick = { priority = 1 }
-                )
-                PriorityChip(
-                    label = "Medium",
-                    selected = priority == 2,
-                    onClick = { priority = 2 }
-                )
-                PriorityChip(
-                    label = "Low",
-                    selected = priority == 3,
-                    onClick = { priority = 3 }
-                )
+                PriorityChip(label = "Tinggi", selected = priority == 1, onClick = { priority = 1 })
+                PriorityChip(label = "Sedang", selected = priority == 2, onClick = { priority = 2 })
+                PriorityChip(label = "Rendah", selected = priority == 3, onClick = { priority = 3 })
             }
 
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Save Button
             AppButton(
-                text = if (taskId == null) "Add Task" else "Update Task",
-                onClick = {
+                text = if (taskId == null) "Buat Tugas" else "Perbarui Tugas", onClick = {
                     if (title.isBlank()) {
                         isTitleError = true
                         return@AppButton
                     }
-
                     if (dueDate == null) {
                         isDateError = true
                         return@AppButton
@@ -177,24 +175,22 @@ fun TaskEditScreen(
                     } else {
                         viewModel.updateTask(newTask)
                     }
-
                     navController.popBackStack()
-                },
-                modifier = Modifier.fillMaxWidth()
+                }, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                )
             )
 
+            // Delete Button (only for existing tasks)
             if (taskId != null) {
-                Spacer(modifier = Modifier.height(8.dp))
                 AppButton(
-                    text = "Delete Task",
-                    onClick = {
+                    text = "Hapus Tugas", onClick = {
                         task?.let {
                             viewModel.deleteTask(it)
                             navController.popBackStack()
                         }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(
+                    }, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.errorContainer,
                         contentColor = MaterialTheme.colorScheme.onErrorContainer
                     )

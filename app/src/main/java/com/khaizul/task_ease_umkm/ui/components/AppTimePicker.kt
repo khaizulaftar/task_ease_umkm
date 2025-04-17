@@ -38,7 +38,7 @@ fun AppTimePicker(
             trailingIcon = {
                 IconButton(onClick = { showTimePicker = true }) {
                     Icon(
-                        imageVector = Icons.Default.Edit, // Ikon alternatif yang tersedia
+                        imageVector = Icons.Default.Edit,
                         contentDescription = "Select time"
                     )
                 }

@@ -23,14 +23,11 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             TaskEaseUMKMTheme {
-                // Get the navController
-                val navController = rememberNavController()
-
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavigation(navController = navController)
+                    AppNavigation(navController = rememberNavController())
                 }
             }
         }

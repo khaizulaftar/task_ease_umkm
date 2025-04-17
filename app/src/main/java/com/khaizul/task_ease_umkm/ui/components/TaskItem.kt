@@ -1,7 +1,6 @@
 package com.khaizul.task_ease_umkm.ui.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
@@ -14,10 +13,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.khaizul.task_ease_umkm.data.local.entity.TaskEntity
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.shape.RoundedCornerShape
 import java.text.SimpleDateFormat
 import java.util.*
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskItem(
     task: TaskEntity,
@@ -28,16 +29,19 @@ fun TaskItem(
 ) {
     val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
 
-    Card(
+    Surface(
         onClick = onTaskClick,
-        modifier = modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = when (task.priority) {
-                1 -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.3f)
-                3 -> MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.3f)
-                else -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
-            }
-        )
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        shape = MaterialTheme.shapes.medium,
+        color = when {
+            task.isCompleted -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f)
+            task.priority == 1 -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.2f)
+            task.priority == 3 -> MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.2f)
+            else -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.1f)
+        },
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
     ) {
         Column(
             modifier = Modifier
@@ -56,7 +60,12 @@ fun TaskItem(
                     modifier = Modifier.weight(1f),
                     fontWeight = if (task.isCompleted) FontWeight.Normal else FontWeight.Bold,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color = if (task.isCompleted) {
+                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                    } else {
+                        MaterialTheme.colorScheme.onSurface
+                    }
                 )
 
                 Column(
@@ -65,12 +74,22 @@ fun TaskItem(
                 ) {
                     Text(
                         text = dateFormat.format(task.dueDate),
-                        style = MaterialTheme.typography.labelMedium
+                        style = MaterialTheme.typography.labelMedium,
+                        color = if (task.isCompleted) {
+                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                        } else {
+                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+                        }
                     )
                     if (task.hasTimeSet()) {
                         Text(
                             text = task.getFormattedTime(),
-                            style = MaterialTheme.typography.labelSmall
+                            style = MaterialTheme.typography.labelSmall,
+                            color = if (task.isCompleted) {
+                                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                            } else {
+                                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                            }
                         )
                     }
                 }
@@ -79,15 +98,13 @@ fun TaskItem(
             // Description (if exists)
             if (task.description.isNotBlank()) {
                 Spacer(modifier = Modifier.height(8.dp))
-                SelectionContainer {
-                    Text(
-                        text = task.description,
-                        style = MaterialTheme.typography.bodyMedium,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.alpha(if (task.isCompleted) 0.6f else 0.8f)
-                    )
-                }
+                Text(
+                    text = task.description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.alpha(if (task.isCompleted) 0.6f else 0.8f)
+                )
             }
 
             // Category and Actions Row
@@ -98,16 +115,18 @@ fun TaskItem(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Category Chip - Using AssistChip instead
-                AssistChip(
+                // Category Chip
+                FilterChip(
+                    selected = false,
                     onClick = {},
                     label = { Text(task.category) },
-                    colors = AssistChipDefaults.assistChipColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f)
+                    colors = FilterChipDefaults.filterChipColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f),
+                        labelColor = MaterialTheme.colorScheme.primary
                     ),
                     border = BorderStroke(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+                        1.dp,
+                        MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
                     ),
                     modifier = Modifier.height(32.dp)
                 )
@@ -120,8 +139,7 @@ fun TaskItem(
                     // Delete Button
                     IconButton(
                         onClick = onDeleteTask,
-                        modifier = Modifier.size(40.dp),
-                        enabled = true
+                        modifier = Modifier.size(40.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Delete,
@@ -136,11 +154,25 @@ fun TaskItem(
                     FilledTonalButton(
                         onClick = onCompleteTask,
                         enabled = !task.isCompleted,
-                        modifier = Modifier.height(36.dp)
+                        modifier = Modifier.size(35.dp),
+                        colors = ButtonDefaults.filledTonalButtonColors(
+                            containerColor = if (task.isCompleted)
+                                MaterialTheme.colorScheme.tertiaryContainer
+                            else
+                                MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = if (task.isCompleted)
+                                MaterialTheme.colorScheme.onTertiaryContainer
+                            else
+                                MaterialTheme.colorScheme.onPrimaryContainer
+                        ),
+                        contentPadding = PaddingValues(0.dp),
+                        shape = RoundedCornerShape(28.dp)
                     ) {
-                        Text(
-                            text = if (task.isCompleted) "Completed" else "Complete",
-                            style = MaterialTheme.typography.labelMedium
+                        Icon(
+                            imageVector = if (task.isCompleted) Icons.Default.CheckCircle else Icons.Default.CheckCircle, // Ganti dengan ikon Completed jika selesai
+                            contentDescription = if (task.isCompleted) "Completed" else "Complete",
+                            tint = if (task.isCompleted) Color(0xFF9E9E9E) else Color(0xFF4CAF50),
+                            modifier = Modifier.size(25.dp)
                         )
                     }
                 }

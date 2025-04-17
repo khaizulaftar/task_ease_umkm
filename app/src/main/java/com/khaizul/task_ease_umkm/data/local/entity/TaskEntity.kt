@@ -10,7 +10,7 @@ data class TaskEntity(
     val title: String,
     val description: String,
     val category: String,
-    val priority: Int = 2, // 1 = High, 2 = Medium, 3 = Low
+    val priority: Int = 2, // 1 = Tinggi, 2 = Sedang, 3 = Rendah
     val dueDate: Date,
     val dueHour: Int = 0,
     val dueMinute: Int = 0,

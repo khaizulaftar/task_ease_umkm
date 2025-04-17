@@ -183,7 +183,9 @@ fun AppDropdownMenu(
             readOnly = true,
             label = { Text(label) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            modifier = Modifier.menuAnchor().fillMaxWidth()
+            modifier = Modifier
+                .menuAnchor()
+                .fillMaxWidth()
         )
 
         ExposedDropdownMenu(
@@ -252,9 +254,9 @@ fun PriorityChip(
         label = { Text(label) },
         colors = FilterChipDefaults.filterChipColors(
             selectedContainerColor = when (label) {
-                "High" -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.3f)
-                "Medium" -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
-                "Low" -> MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.3f)
+                "Tinggi" -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.3f)
+                "Sedang" -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
+                "Rendah" -> MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.3f)
                 else -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
             },
             selectedLabelColor = MaterialTheme.colorScheme.onSurface

@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import java.util.Date
 import javax.inject.Inject
-import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,7 +26,6 @@ class TaskRepository @Inject constructor(
                 trySyncWithFirebase(task)
             }
         } catch (e: Exception) {
-            Log.e("TaskRepository", "Error inserting task", e)
             throw e
         }
     }
@@ -39,7 +37,6 @@ class TaskRepository @Inject constructor(
                 trySyncWithFirebase(task)
             }
         } catch (e: Exception) {
-            Log.e("TaskRepository", "Error updating task", e)
             throw e
         }
     }
@@ -52,12 +49,11 @@ class TaskRepository @Inject constructor(
                     try {
                         deleteTaskFromFirebase(task.id)
                     } catch (e: Exception) {
-                        Log.e("TaskRepository", "Background delete failed", e)
+                        throw e
                     }
                 }
             }
         } catch (e: Exception) {
-            Log.e("TaskRepository", "Error deleting task", e)
             throw e
         }
     }
@@ -82,7 +78,7 @@ class TaskRepository @Inject constructor(
                 taskDao.markTaskAsSynced(task.id)
             }
         } catch (e: Exception) {
-            Log.w("TaskRepository", "Background sync failed for task ${task.id}", e)
+            throw e
         }
     }
 
