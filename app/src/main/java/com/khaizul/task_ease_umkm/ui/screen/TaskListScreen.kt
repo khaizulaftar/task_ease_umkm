@@ -18,6 +18,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
 import com.khaizul.task_ease_umkm.ui.components.*
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.material3.TopAppBar
+import com.khaizul.task_ease_umkm.ui.theme.PrimaryBlue
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.ui.draw.scale
 import com.khaizul.task_ease_umkm.viewmodel.TaskViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,10 +50,17 @@ fun TaskListScreen(
 
     Scaffold(topBar = {
         TopAppBar(
-            title = { Text("TaskEase UMKM", style = MaterialTheme.typography.titleLarge) },
+            title = {
+                Text(
+                    text = "TaskEase",
+                    color = PrimaryBlue,
+                    fontWeight = FontWeight.Bold
+                )
+            },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                containerColor = Color.Transparent,
+                titleContentColor = PrimaryBlue,
+                actionIconContentColor = PrimaryBlue
             )
         )
     }, floatingActionButton = {
@@ -109,10 +120,11 @@ fun TaskListScreen(
             ) {
                 Text(
                     "Tugas",
-                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Switch(
+                    modifier = Modifier.scale(0.8f),
                     checked = showCompleted,
                     onCheckedChange = { showCompleted = it },
                     colors = SwitchDefaults.colors(

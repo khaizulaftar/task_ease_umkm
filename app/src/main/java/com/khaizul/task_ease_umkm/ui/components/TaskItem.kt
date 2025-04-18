@@ -13,8 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.khaizul.task_ease_umkm.data.local.entity.TaskEntity
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.shape.RoundedCornerShape
 import java.text.SimpleDateFormat
 import java.util.*
@@ -154,7 +153,7 @@ fun TaskItem(
                     FilledTonalButton(
                         onClick = onCompleteTask,
                         enabled = !task.isCompleted,
-                        modifier = Modifier.size(35.dp),
+                        modifier = Modifier.height(36.dp),
                         colors = ButtonDefaults.filledTonalButtonColors(
                             containerColor = if (task.isCompleted)
                                 MaterialTheme.colorScheme.tertiaryContainer
@@ -165,14 +164,13 @@ fun TaskItem(
                             else
                                 MaterialTheme.colorScheme.onPrimaryContainer
                         ),
-                        contentPadding = PaddingValues(0.dp),
-                        shape = RoundedCornerShape(28.dp)
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
+                        shape = RoundedCornerShape(20.dp)
                     ) {
-                        Icon(
-                            imageVector = if (task.isCompleted) Icons.Default.CheckCircle else Icons.Default.CheckCircle, // Ganti dengan ikon Completed jika selesai
-                            contentDescription = if (task.isCompleted) "Completed" else "Complete",
-                            tint = if (task.isCompleted) Color(0xFF9E9E9E) else Color(0xFF4CAF50),
-                            modifier = Modifier.size(25.dp)
+                        Text(
+                            text = if (task.isCompleted) "Sudah Selesai" else "Selesai",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Medium
                         )
                     }
                 }
