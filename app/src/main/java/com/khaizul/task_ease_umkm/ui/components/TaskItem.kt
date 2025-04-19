@@ -68,8 +68,7 @@ fun TaskItem(
                 )
 
                 Column(
-                    horizontalAlignment = Alignment.End,
-                    modifier = Modifier.padding(start = 8.dp)
+                    horizontalAlignment = Alignment.End, modifier = Modifier.padding(start = 8.dp)
                 ) {
                     Text(
                         text = dateFormat.format(task.dueDate),
@@ -124,8 +123,7 @@ fun TaskItem(
                         labelColor = MaterialTheme.colorScheme.primary
                     ),
                     border = BorderStroke(
-                        1.dp,
-                        MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+                        1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
                     ),
                     modifier = Modifier.height(32.dp)
                 )
@@ -137,8 +135,7 @@ fun TaskItem(
                 ) {
                     // Delete Button
                     IconButton(
-                        onClick = onDeleteTask,
-                        modifier = Modifier.size(40.dp)
+                        onClick = onDeleteTask, modifier = Modifier.size(40.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Delete,
@@ -155,14 +152,10 @@ fun TaskItem(
                         enabled = !task.isCompleted,
                         modifier = Modifier.height(36.dp),
                         colors = ButtonDefaults.filledTonalButtonColors(
-                            containerColor = if (task.isCompleted)
-                                MaterialTheme.colorScheme.tertiaryContainer
-                            else
-                                MaterialTheme.colorScheme.primaryContainer,
-                            contentColor = if (task.isCompleted)
-                                MaterialTheme.colorScheme.onTertiaryContainer
-                            else
-                                MaterialTheme.colorScheme.onPrimaryContainer
+                            containerColor = if (task.isCompleted) MaterialTheme.colorScheme.tertiaryContainer
+                            else MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = if (task.isCompleted) MaterialTheme.colorScheme.onTertiaryContainer
+                            else MaterialTheme.colorScheme.onPrimaryContainer
                         ),
                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
                         shape = RoundedCornerShape(20.dp)

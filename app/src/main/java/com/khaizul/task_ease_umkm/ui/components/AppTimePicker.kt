@@ -21,16 +21,15 @@ fun AppTimePicker(
 ) {
     var showTimePicker by remember { mutableStateOf(false) }
     val timePickerState = rememberTimePickerState(
-        initialHour = selectedHour,
-        initialMinute = selectedMinute,
-        is24Hour = true
+        initialHour = selectedHour, initialMinute = selectedMinute, is24Hour = true
     )
 
     Column(modifier = modifier) {
-        OutlinedTextField(
-            value = if (selectedHour >= 0 && selectedMinute >= 0)
-                "%02d:%02d".format(selectedHour, selectedMinute)
-            else "",
+        OutlinedTextField(value = if (selectedHour >= 0 && selectedMinute >= 0) "%02d:%02d".format(
+            selectedHour,
+            selectedMinute
+        )
+        else "",
             onValueChange = {},
             label = { Text(label) },
             readOnly = true,
@@ -38,16 +37,13 @@ fun AppTimePicker(
             trailingIcon = {
                 IconButton(onClick = { showTimePicker = true }) {
                     Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = "Select time"
+                        imageVector = Icons.Default.Edit, contentDescription = "Select time"
                     )
                 }
-            }
-        )
+            })
 
         if (showTimePicker) {
-            AlertDialog(
-                onDismissRequest = { showTimePicker = false },
+            AlertDialog(onDismissRequest = { showTimePicker = false },
                 properties = DialogProperties(),
                 content = {
                     Column {
@@ -56,24 +52,19 @@ fun AppTimePicker(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.End
                         ) {
-                            TextButton(
-                                onClick = { showTimePicker = false }
-                            ) {
+                            TextButton(onClick = { showTimePicker = false }) {
                                 Text("Cancel")
                             }
                             Spacer(modifier = Modifier.width(8.dp))
-                            TextButton(
-                                onClick = {
-                                    onTimeSelected(timePickerState.hour, timePickerState.minute)
-                                    showTimePicker = false
-                                }
-                            ) {
+                            TextButton(onClick = {
+                                onTimeSelected(timePickerState.hour, timePickerState.minute)
+                                showTimePicker = false
+                            }) {
                                 Text("OK")
                             }
                         }
                     }
-                }
-            )
+                })
         }
     }
 }

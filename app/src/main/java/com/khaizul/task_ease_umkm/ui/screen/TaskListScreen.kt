@@ -52,12 +52,9 @@ fun TaskListScreen(
         TopAppBar(
             title = {
                 Text(
-                    text = "TaskEase",
-                    color = PrimaryBlue,
-                    fontWeight = FontWeight.Bold
+                    text = "TaskEase", color = PrimaryBlue, fontWeight = FontWeight.Bold
                 )
-            },
-            colors = TopAppBarDefaults.topAppBarColors(
+            }, colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = Color.Transparent,
                 titleContentColor = PrimaryBlue,
                 actionIconContentColor = PrimaryBlue
@@ -193,8 +190,7 @@ fun SearchBar(
             .fillMaxWidth()
             .height(56.dp)
     ) {
-        TextField(
-            value = query,
+        TextField(value = query,
             onValueChange = onQueryChange,
             leadingIcon = {
                 Icon(

@@ -15,13 +15,11 @@ import com.khaizul.task_ease_umkm.viewmodel.TaskViewModel
 @Composable
 fun AppNavigation(navController: NavHostController) {
     NavHost(
-        navController = navController,
-        startDestination = Screen.TaskList.route
+        navController = navController, startDestination = Screen.TaskList.route
     ) {
         composable(Screen.TaskList.route) {
             val taskViewModel: TaskViewModel = hiltViewModel()
-            TaskListScreen(
-                onAddTask = { navController.navigate(Screen.TaskEdit.route) },
+            TaskListScreen(onAddTask = { navController.navigate(Screen.TaskEdit.route) },
                 onTaskClick = { taskId ->
                     navController.navigate("${Screen.TaskEdit.route}/$taskId")
                 },
@@ -32,21 +30,15 @@ fun AppNavigation(navController: NavHostController) {
         composable(Screen.TaskEdit.route) {
             val viewModel: TaskEditViewModel = hiltViewModel()
             TaskEditScreen(
-                taskId = null,
-                navController = navController,
-                viewModel = viewModel
+                taskId = null, navController = navController, viewModel = viewModel
             )
         }
 
-        composable(
-            route = "${Screen.TaskEdit.route}/{taskId}",
-            arguments = listOf(
-                navArgument("taskId") {
-                    type = NavType.IntType
-                    defaultValue = -1
-                }
-            )
-        ) { backStackEntry ->
+        composable(route = "${Screen.TaskEdit.route}/{taskId}",
+            arguments = listOf(navArgument("taskId") {
+                type = NavType.IntType
+                defaultValue = -1
+            })) { backStackEntry ->
             val taskId = backStackEntry.arguments?.getInt("taskId") ?: -1
             val viewModel: TaskEditViewModel = hiltViewModel()
 

@@ -84,18 +84,14 @@ class TaskRepository @Inject constructor(
 
     private suspend fun syncTaskWithFirebase(task: TaskEntity) {
         val userId = auth.currentUser?.uid ?: return
-        firestore.collection("users").document(userId)
-            .collection("tasks").document(task.id.toString())
-            .set(task.toFirestoreMap())
-            .await()
+        firestore.collection("users").document(userId).collection("tasks")
+            .document(task.id.toString()).set(task.toFirestoreMap()).await()
     }
 
     private suspend fun deleteTaskFromFirebase(taskId: Int) {
         val userId = auth.currentUser?.uid ?: return
-        firestore.collection("users").document(userId)
-            .collection("tasks").document(taskId.toString())
-            .delete()
-            .await()
+        firestore.collection("users").document(userId).collection("tasks")
+            .document(taskId.toString()).delete().await()
     }
 }
 

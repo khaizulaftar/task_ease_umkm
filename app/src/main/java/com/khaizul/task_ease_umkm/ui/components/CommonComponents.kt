@@ -25,10 +25,7 @@ fun AppButton(
     colors: ButtonColors = ButtonDefaults.buttonColors()
 ) {
     Button(
-        onClick = onClick,
-        modifier = modifier,
-        enabled = enabled,
-        colors = colors
+        onClick = onClick, modifier = modifier, enabled = enabled, colors = colors
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -36,9 +33,7 @@ fun AppButton(
         ) {
             icon?.let {
                 Icon(
-                    imageVector = it,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
+                    imageVector = it, contentDescription = null, modifier = Modifier.size(20.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
             }
@@ -59,10 +54,9 @@ fun AppDatePicker(
     val datePickerState = rememberDatePickerState()
 
     Column(modifier = modifier) {
-        OutlinedTextField(
-            value = selectedDate?.let {
-                SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date(it))
-            } ?: "",
+        OutlinedTextField(value = selectedDate?.let {
+            SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date(it))
+        } ?: "",
             onValueChange = {},
             label = { Text(label) },
             readOnly = true,
@@ -71,30 +65,23 @@ fun AppDatePicker(
                 IconButton(onClick = { showDatePicker = true }) {
                     Icon(Icons.Default.ArrowBack, contentDescription = "Select date")
                 }
-            }
-        )
+            })
 
         if (showDatePicker) {
-            DatePickerDialog(
-                onDismissRequest = { showDatePicker = false },
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            datePickerState.selectedDateMillis?.let {
-                                onDateSelected(it)
-                            }
-                            showDatePicker = false
-                        }
-                    ) {
-                        Text("OK")
+            DatePickerDialog(onDismissRequest = { showDatePicker = false }, confirmButton = {
+                TextButton(onClick = {
+                    datePickerState.selectedDateMillis?.let {
+                        onDateSelected(it)
                     }
-                },
-                dismissButton = {
-                    TextButton(onClick = { showDatePicker = false }) {
-                        Text("Cancel")
-                    }
+                    showDatePicker = false
+                }) {
+                    Text("OK")
                 }
-            ) {
+            }, dismissButton = {
+                TextButton(onClick = { showDatePicker = false }) {
+                    Text("Cancel")
+                }
+            }) {
                 DatePicker(state = datePickerState)
             }
         }
@@ -111,17 +98,14 @@ fun AppTimePicker(
 ) {
     var showTimePicker by remember { mutableStateOf(false) }
     val timePickerState = rememberTimePickerState(
-        initialHour = 12,
-        initialMinute = 0,
-        is24Hour = true
+        initialHour = 12, initialMinute = 0, is24Hour = true
     )
 
     Column(modifier = modifier) {
         // ... (your existing text field code)
 
         if (showTimePicker) {
-            AlertDialog(
-                onDismissRequest = { showTimePicker = false },
+            AlertDialog(onDismissRequest = { showTimePicker = false },
                 properties = DialogProperties(), // Add this line
                 content = {
                     Column {
@@ -130,33 +114,28 @@ fun AppTimePicker(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.End
                         ) {
-                            TextButton(
-                                onClick = {
-                                    val cal = Calendar.getInstance().apply {
-                                        set(Calendar.HOUR_OF_DAY, timePickerState.hour)
-                                        set(Calendar.MINUTE, timePickerState.minute)
-                                        set(Calendar.SECOND, 0)
-                                        set(Calendar.MILLISECOND, 0)
-                                        set(Calendar.YEAR, 1970)
-                                        set(Calendar.MONTH, 0)
-                                        set(Calendar.DAY_OF_MONTH, 1)
-                                    }
-                                    onTimeSelected(cal.timeInMillis)
-                                    showTimePicker = false
+                            TextButton(onClick = {
+                                val cal = Calendar.getInstance().apply {
+                                    set(Calendar.HOUR_OF_DAY, timePickerState.hour)
+                                    set(Calendar.MINUTE, timePickerState.minute)
+                                    set(Calendar.SECOND, 0)
+                                    set(Calendar.MILLISECOND, 0)
+                                    set(Calendar.YEAR, 1970)
+                                    set(Calendar.MONTH, 0)
+                                    set(Calendar.DAY_OF_MONTH, 1)
                                 }
-                            ) {
+                                onTimeSelected(cal.timeInMillis)
+                                showTimePicker = false
+                            }) {
                                 Text("OK")
                             }
                             Spacer(modifier = Modifier.width(8.dp))
-                            TextButton(
-                                onClick = { showTimePicker = false }
-                            ) {
+                            TextButton(onClick = { showTimePicker = false }) {
                                 Text("Cancel")
                             }
                         }
                     }
-                }
-            )
+                })
         }
     }
 }
@@ -173,12 +152,9 @@ fun AppDropdownMenu(
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = { expanded = !expanded },
-        modifier = modifier
+        expanded = expanded, onExpandedChange = { expanded = !expanded }, modifier = modifier
     ) {
-        OutlinedTextField(
-            value = selectedOption,
+        OutlinedTextField(value = selectedOption,
             onValueChange = {},
             readOnly = true,
             label = { Text(label) },
@@ -188,18 +164,12 @@ fun AppDropdownMenu(
                 .fillMaxWidth()
         )
 
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
+        ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             options.forEach { option ->
-                DropdownMenuItem(
-                    text = { Text(option) },
-                    onClick = {
-                        onOptionSelected(option)
-                        expanded = false
-                    }
-                )
+                DropdownMenuItem(text = { Text(option) }, onClick = {
+                    onOptionSelected(option)
+                    expanded = false
+                })
             }
         }
     }
@@ -244,9 +214,7 @@ fun AppTextField(
 
 @Composable
 fun PriorityChip(
-    label: String,
-    selected: Boolean,
-    onClick: () -> Unit
+    label: String, selected: Boolean, onClick: () -> Unit
 ) {
     FilterChip(
         selected = selected,
@@ -258,8 +226,7 @@ fun PriorityChip(
                 "Sedang" -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
                 "Rendah" -> MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.3f)
                 else -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
-            },
-            selectedLabelColor = MaterialTheme.colorScheme.onSurface
+            }, selectedLabelColor = MaterialTheme.colorScheme.onSurface
         )
     )
 }
