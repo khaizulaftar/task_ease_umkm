@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -32,7 +31,8 @@ fun TaskItem(
         onClick = onTaskClick,
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
+            .padding(vertical = 4.dp)
+            .wrapContentHeight(),
         shape = MaterialTheme.shapes.medium,
         color = when {
             task.isCompleted -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f)
@@ -99,9 +99,8 @@ fun TaskItem(
                 Text(
                     text = task.description,
                     style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 2,
+                    modifier = Modifier.fillMaxWidth(),
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.alpha(if (task.isCompleted) 0.6f else 0.8f)
                 )
             }
 
