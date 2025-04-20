@@ -7,6 +7,8 @@ import com.khaizul.task_ease_umkm.data.local.entity.TaskEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import java.util.Date
+import android.content.Context
+import com.khaizul.task_ease_umkm.utils.NotificationHelper
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,13 +17,15 @@ import kotlinx.coroutines.launch
 class TaskRepository @Inject constructor(
     private val taskDao: TaskDao,
     private val firestore: FirebaseFirestore,
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    private val context: Context
 ) {
     private val ioScope = CoroutineScope(Dispatchers.IO)
 
     suspend fun insertTask(task: TaskEntity) {
         try {
             taskDao.insertTask(task.copy(isSynced = false))
+            NotificationHelper.scheduleExactNotification(context, task)
             ioScope.launch {
                 trySyncWithFirebase(task)
             }
@@ -33,6 +37,7 @@ class TaskRepository @Inject constructor(
     suspend fun updateTask(task: TaskEntity) {
         try {
             taskDao.updateTask(task.copy(isSynced = false))
+            NotificationHelper.scheduleExactNotification(context, task)
             ioScope.launch {
                 trySyncWithFirebase(task)
             }

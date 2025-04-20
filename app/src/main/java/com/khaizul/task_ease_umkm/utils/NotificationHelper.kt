@@ -1,5 +1,6 @@
 package com.khaizul.task_ease_umkm.utils
 
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -9,18 +10,15 @@ import android.graphics.Color
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import com.khaizul.task_ease_umkm.MainActivity
 import com.khaizul.task_ease_umkm.R
-import java.util.concurrent.TimeUnit
+import com.khaizul.task_ease_umkm.data.local.entity.TaskEntity
+import java.util.Calendar
 
 object NotificationHelper {
     private const val CHANNEL_ID = "task_reminder_channel"
     private const val CHANNEL_NAME = "Task Reminders"
     private const val NOTIFICATION_ID = 1
-    private const val WORK_NAME = "task_notification_work"
 
     fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -38,16 +36,40 @@ object NotificationHelper {
         }
     }
 
-    fun scheduleDailyNotification(context: Context) {
-        createNotificationChannel(context)
+    fun scheduleExactNotification(context: Context, task: TaskEntity) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, TaskReminderReceiver::class.java).apply {
+            putExtra("title", task.title)
+            putExtra("message", "Tugas '${task.title}' jatuh tempo!")
+        }
 
-        val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(
-            24, TimeUnit.HOURS
-        ).setInitialDelay(1, TimeUnit.MINUTES).build()
-
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            WORK_NAME, ExistingPeriodicWorkPolicy.REPLACE, workRequest
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            task.id,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+
+        val calendar = Calendar.getInstance().apply {
+            time = task.dueDate
+            set(Calendar.HOUR_OF_DAY, task.dueHour)
+            set(Calendar.MINUTE, task.dueMinute)
+            set(Calendar.SECOND, 0)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent
+            )
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(
+                AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent
+            )
+        } else {
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent
+            )
+        }
     }
 
     fun showNotification(context: Context, title: String, message: String) {

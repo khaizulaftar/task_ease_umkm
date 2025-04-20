@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
             requestNotificationPermission()
         }
 
-        NotificationHelper.scheduleDailyNotification(this)
+        NotificationHelper.createNotificationChannel(this)
 
         setContent {
             TaskEaseUMKMTheme {
