@@ -25,6 +25,7 @@ class TaskRepository @Inject constructor(
     suspend fun insertTask(task: TaskEntity) {
         try {
             taskDao.insertTask(task.copy(isSynced = false))
+            NotificationHelper.cancelExactNotification(context, task.id)
             NotificationHelper.scheduleExactNotification(context, task)
             ioScope.launch {
                 trySyncWithFirebase(task)
@@ -37,6 +38,7 @@ class TaskRepository @Inject constructor(
     suspend fun updateTask(task: TaskEntity) {
         try {
             taskDao.updateTask(task.copy(isSynced = false))
+            NotificationHelper.cancelExactNotification(context, task.id)
             NotificationHelper.scheduleExactNotification(context, task)
             ioScope.launch {
                 trySyncWithFirebase(task)
