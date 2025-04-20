@@ -29,6 +29,6 @@ dengan fitur pengingat.
 
 ## 📸 Screenshot Aplikasi
 
-| Dashboard                                                      | Tambah Tugas                                          | Edit Tugas                                           | Notifikasi                                                     |
-|----------------------------------------------------------------|-------------------------------------------------------|------------------------------------------------------|----------------------------------------------------------------|
-| ![Dashboard](app/src/main/res/drawable/taskease_dashboard.png) | ![Tambah](app/src/main/res/drawable/taskease_add.png) | ![Edit](app/src/main/res/drawable/taskease_edit.png) | ![Notif](app/src/main/res/drawable/taskease_notifikasiono.png) |
+| Dashboard                                                      | Tambah Tugas                                          | Edit Tugas                                           | Notifikasi                                                  |
+|----------------------------------------------------------------|-------------------------------------------------------|------------------------------------------------------|-------------------------------------------------------------|
+| ![Dashboard](app/src/main/res/drawable/taskease_dashboard.png) | ![Tambah](app/src/main/res/drawable/taskease_add.png) | ![Edit](app/src/main/res/drawable/taskease_edit.png) | ![Notif](app/src/main/res/drawable/taskease_notifikasi.png) |
