@@ -20,10 +20,6 @@ dengan fitur pengingat.
 - **Bahasa**: Kotlin
 - **Framework**: Jetpack Compose
 - **Database**: Room (Offline), Firebase Firestore (Online)
-- **Lainnya**:
-    - ViewModel + Flow
-    - WorkManager (Notifikasi)
-    - Hilt (Dependency Injection)
 
 ---
 
