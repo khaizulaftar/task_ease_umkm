@@ -27,6 +27,16 @@ dengan fitur pengingat.
 
 ---
 
+## 🎨 Logo
+
+### Versi dengan Teks
+![TaskEase Logo](app/src/main/res/drawable/logo_taskease_text.png)
+
+### Versi tanpa Teks
+![TaskEase Icon](app/src/main/res/drawable/logo_taskease_icon.png)
+
+---
+
 ## 📸 Screenshot Aplikasi
 
 | Dashboard                                                      | Tambah Tugas                                          | Edit Tugas                                           | Notifikasi                                                  |
