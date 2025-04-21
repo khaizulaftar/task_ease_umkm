@@ -28,10 +28,9 @@ dengan fitur pengingat.
 ---
 
 ## 🎨 Logo
-<p align="center">
-  <img src="app/src/main/res/drawable/logo_taskease_text.png" width="200" alt="TaskEase">
-  <img src="app/src/main/res/drawable/logo_taskease_icon.png" width="100" alt="Icon">
-</p>
+
+<img src="app/src/main/res/drawable/logo_taskease_text.png" width="150" alt="TaskEase">
+<img src="app/src/main/res/drawable/logo_taskease_icon.png" width="150" alt="Icon">
 
 ---
 
