@@ -13,7 +13,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.compose.ui.window.DialogProperties
 
 @Composable
 fun AppButton(
@@ -84,58 +83,6 @@ fun AppDatePicker(
             }) {
                 DatePicker(state = datePickerState)
             }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AppTimePicker(
-    label: String,
-    selectedTime: Long?,
-    onTimeSelected: (Long) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    var showTimePicker by remember { mutableStateOf(false) }
-    val timePickerState = rememberTimePickerState(
-        initialHour = 12, initialMinute = 0, is24Hour = true
-    )
-
-    Column(modifier = modifier) {
-        // ... (your existing text field code)
-
-        if (showTimePicker) {
-            AlertDialog(onDismissRequest = { showTimePicker = false },
-                properties = DialogProperties(), // Add this line
-                content = {
-                    Column {
-                        TimePicker(state = timePickerState)
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.End
-                        ) {
-                            TextButton(onClick = {
-                                val cal = Calendar.getInstance().apply {
-                                    set(Calendar.HOUR_OF_DAY, timePickerState.hour)
-                                    set(Calendar.MINUTE, timePickerState.minute)
-                                    set(Calendar.SECOND, 0)
-                                    set(Calendar.MILLISECOND, 0)
-                                    set(Calendar.YEAR, 1970)
-                                    set(Calendar.MONTH, 0)
-                                    set(Calendar.DAY_OF_MONTH, 1)
-                                }
-                                onTimeSelected(cal.timeInMillis)
-                                showTimePicker = false
-                            }) {
-                                Text("OK")
-                            }
-                            Spacer(modifier = Modifier.width(8.dp))
-                            TextButton(onClick = { showTimePicker = false }) {
-                                Text("Cancel")
-                            }
-                        }
-                    }
-                })
         }
     }
 }
