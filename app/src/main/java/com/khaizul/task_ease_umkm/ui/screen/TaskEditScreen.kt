@@ -52,7 +52,7 @@ fun TaskEditScreen(
 
     Scaffold(topBar = {
         TopAppBar(
-            title = { Text(if (taskId == null) "Add New Task" else "Edit Task") },
+            title = { Text(if (taskId == null) "Tambahkan Tugas Baru" else "Edit Tugas") },
             navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(Icons.Default.ArrowBack, contentDescription = "Back")
