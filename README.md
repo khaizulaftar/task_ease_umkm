@@ -48,13 +48,22 @@ offline maupun online.
 
 ## 📸 Screenshot Aplikasi
 
-<p align="center">
-  <img src="app/src/main/res/drawable/taskease_app.png" width="150"/>
-  <img src="app/src/main/res/drawable/taskease_dashboard.png" width="150"/>
-  <img src="app/src/main/res/drawable/taskease_add.png" width="150"/>
-  <img src="app/src/main/res/drawable/taskease_edit.png" width="150"/>
-  <img src="app/src/main/res/drawable/taskease_notifikasi.png" width="150"/>
-</p>
+<table align="center">
+  <tr align="center">
+    <td><b>Logo Aplikasi</b></td>
+    <td><b>Dashboard</b></td>
+    <td><b>Tambah Tugas</b></td>
+    <td><b>Edit Tugas</b></td>
+    <td><b>Notifikasi</b></td>
+  </tr>
+  <tr>
+    <td><img src="app/src/main/res/drawable/taskease_app.png" width="130"/></td>
+    <td><img src="app/src/main/res/drawable/taskease_dashboard.png" width="130"/></td>
+    <td><img src="app/src/main/res/drawable/taskease_add.png" width="130"/></td>
+    <td><img src="app/src/main/res/drawable/taskease_edit.png" width="130"/></td>
+    <td><img src="app/src/main/res/drawable/taskease_notifikasi.png" width="130"/></td>
+  </tr>
+</table>
 
 ---
 
