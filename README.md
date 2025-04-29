@@ -1,33 +1,45 @@
 # TaskEase UMKM 📋
 
-Aplikasi manajemen tugas berbasis Android untuk pelaku UMKM, membantu mengorganisir tugas harian
-dengan fitur pengingat.
+Aplikasi Android untuk membantu pelaku UMKM mengelola tugas harian secara efisien, dengan fitur pengingat otomatis, kategori, dan sinkronisasi online.
 
 ---
 
 ## 🔍 Fitur Utama
 
-- **Tambah/Edit/Hapus Tugas**
-- **Pengingat Otomatis** (Notifikasi tepat waktu)
-- **Kategori Tugas** (Keuangan, Pemasaran, dll)
-- **Mode Offline** (Room Database)
-- **Sinkronisasi Online** (Firebase Firestore)
+- ✅ **Tambah / Edit / Hapus Tugas**  
+  Kelola daftar tugas secara fleksibel.
+- 🔔 **Pengingat Otomatis**  
+  Notifikasi tugas menjelang tenggat menggunakan AlarmManager / WorkManager.
+- 📂 **Kategori Tugas**  
+  Kelompokkan tugas berdasarkan jenis pekerjaan: Keuangan, Pemasaran, Operasional, dll.
+- 📴 **Mode Offline (Room Database)**  
+  Aplikasi tetap berjalan tanpa koneksi internet.
+- ☁️ **Sinkronisasi Online (Firebase Firestore)**  
+  Sinkronisasi lintas perangkat (opsional).
+- 🔄 **Manajemen State**  
+  ViewModel + LiveData / Flow memastikan data tetap konsisten.
 
 ---
 
-## 🛠 Teknologi
+## 🛠 Teknologi yang Digunakan
 
-- **Bahasa**: Kotlin
-- **Framework**: Jetpack Compose
-- **Database**: Room (Offline), Firebase Firestore (Online)
+| Kebutuhan         | Teknologi                          |
+|-------------------|------------------------------------|
+| Bahasa            | Kotlin                             |
+| UI Framework      | Jetpack Compose                    |
+| Database Offline  | Room Database                      |
+| Database Online   | Firebase Firestore                 |
+| State Management  | ViewModel + LiveData / Flow        |
+| Notifikasi        | WorkManager / AlarmManager         |
+| Desain UI         | Figma / Framer                     |
+| IDE               | Android Studio                     |
+| Version Control   | GitHub                             |
 
 ---
 
-## 🎨 Logo
-<div style="display: flex; align-items: center; gap: 20px;">
-  <img src="app/src/main/res/drawable/logo_taskease_text.png" width="150" alt="TaskEase">
-  <img src="app/src/main/res/drawable/logo_taskease_icon.png" width="150" alt="Icon">
-</div>
+## 🎯 Tujuan Proyek
+
+Meningkatkan produktivitas pelaku UMKM yang masih bergantung pada pencatatan manual dengan menyediakan aplikasi manajemen tugas yang efisien, mudah digunakan, dan dapat digunakan secara offline maupun online.
 
 ---
 
@@ -36,3 +48,43 @@ dengan fitur pengingat.
 | Dashboard                                                      | Tambah Tugas                                          | Edit Tugas                                           | Notifikasi                                                  |
 |----------------------------------------------------------------|-------------------------------------------------------|------------------------------------------------------|-------------------------------------------------------------|
 | ![Dashboard](app/src/main/res/drawable/taskease_dashboard.png) | ![Tambah](app/src/main/res/drawable/taskease_add.png) | ![Edit](app/src/main/res/drawable/taskease_edit.png) | ![Notif](app/src/main/res/drawable/taskease_notifikasi.png) |
+
+---
+
+## 🎨 Logo
+
+<div style="display: flex; align-items: center; gap: 20px;">
+  <img src="app/src/main/res/drawable/logo_taskease_text.png" width="150" alt="TaskEase">
+  <img src="app/src/main/res/drawable/logo_taskease_icon.png" width="150" alt="Icon">
+</div>
+
+---
+
+## 📅 Jadwal Pengembangan
+
+- **26–30 Maret 2025**: Riset kebutuhan & desain UI
+- **3–10 April 2025**: Fitur CRUD & Kategori
+- **11–17 April 2025**: Notifikasi
+- **18–25 April 2025**: Pengujian, finalisasi, dokumentasi
+
+---
+
+## ⚠️ Manajemen Risiko
+
+- Keterlambatan → Penjadwalan ketat & evaluasi mingguan
+- Bug → Pengujian unit & UI rutin
+- Pengguna rendah → Promosi via komunitas UMKM
+- Fitur tidak sesuai → Iterasi dari umpan balik pengguna
+
+---
+
+## 🧪 Evaluasi & Iterasi
+
+- Pengujian Unit & UI
+- Umpan balik langsung dari pengguna UMKM
+- Analisis performa & iterasi berdasarkan kebutuhan
+
+---
+
+> Dibuat oleh: **Khaizul Aftar**  
+> Capstone ID: **DB5-PR018 – Dicoding Bootcamp Android Developer**
