@@ -94,4 +94,4 @@ offline maupun online.
 ---
 
 > Dibuat oleh: **Khaizul Aftar**  
-> Capstone ID: **DB5-PR018 – Dicoding Bootcamp Android Developer**
+> Capstone ID: **DB5-PR018 - B25B5G030 – Dicoding Bootcamp Android Developer**
