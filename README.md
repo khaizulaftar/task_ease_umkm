@@ -10,7 +10,7 @@ pengingat otomatis, kategori, dan sinkronisasi online.
 - ✅ **Tambah / Edit / Hapus Tugas**  
   Kelola daftar tugas secara fleksibel.
 - 🔔 **Pengingat Otomatis**  
-  Notifikasi tugas menjelang tenggat menggunakan AlarmManager / WorkManager.
+  Notifikasi tugas menjelang tenggat menggunakan AlarmManager.
 - 📂 **Kategori Tugas**  
   Kelompokkan tugas berdasarkan jenis pekerjaan: Keuangan, Pemasaran, Operasional, dll.
 - 📴 **Mode Offline (Room Database)**  
@@ -29,10 +29,10 @@ pengingat otomatis, kategori, dan sinkronisasi online.
 | Bahasa           | Kotlin                      |
 | UI Framework     | Jetpack Compose             |
 | Database Offline | Room Database               |
-| Database Online  | Firebase Firestore          |
+| Database Online  | Firebase                    |
 | State Management | ViewModel + LiveData / Flow |
-| Notifikasi       | WorkManager / AlarmManager  |
-| Desain UI        | Figma / Framer              |
+| Notifikasi       | AlarmManager                |
+| Desain UI        | Figma                       |
 | IDE              | Android Studio              |
 | Version Control  | GitHub                      |
 
