@@ -1,6 +1,7 @@
 # TaskEase UMKM 📋
 
-Aplikasi Android untuk membantu pelaku UMKM mengelola tugas harian secara efisien, dengan fitur pengingat otomatis, kategori, dan sinkronisasi online.
+Aplikasi Android untuk membantu pelaku UMKM mengelola tugas harian secara efisien, dengan fitur
+pengingat otomatis, kategori, dan sinkronisasi online.
 
 ---
 
@@ -23,29 +24,32 @@ Aplikasi Android untuk membantu pelaku UMKM mengelola tugas harian secara efisie
 
 ## 🛠 Teknologi yang Digunakan
 
-| Kebutuhan         | Teknologi                          |
-|-------------------|------------------------------------|
-| Bahasa            | Kotlin                             |
-| UI Framework      | Jetpack Compose                    |
-| Database Offline  | Room Database                      |
-| Database Online   | Firebase Firestore                 |
-| State Management  | ViewModel + LiveData / Flow        |
-| Notifikasi        | WorkManager / AlarmManager         |
-| Desain UI         | Figma / Framer                     |
-| IDE               | Android Studio                     |
-| Version Control   | GitHub                             |
+| Kebutuhan        | Teknologi                   |
+|------------------|-----------------------------|
+| Bahasa           | Kotlin                      |
+| UI Framework     | Jetpack Compose             |
+| Database Offline | Room Database               |
+| Database Online  | Firebase Firestore          |
+| State Management | ViewModel + LiveData / Flow |
+| Notifikasi       | WorkManager / AlarmManager  |
+| Desain UI        | Figma / Framer              |
+| IDE              | Android Studio              |
+| Version Control  | GitHub                      |
 
 ---
 
 ## 🎯 Tujuan Proyek
 
-Meningkatkan produktivitas pelaku UMKM yang masih bergantung pada pencatatan manual dengan menyediakan aplikasi manajemen tugas yang efisien, mudah digunakan, dan dapat digunakan secara offline maupun online.
+Meningkatkan produktivitas pelaku UMKM yang masih bergantung pada pencatatan manual dengan
+menyediakan aplikasi manajemen tugas yang efisien, mudah digunakan, dan dapat digunakan secara
+offline maupun online.
 
 ---
 
 ## 📸 Screenshot Aplikasi
 
 <p align="center">
+  <img src="app/src/main/res/drawable/taskease_app.png" width="150"/>
   <img src="app/src/main/res/drawable/taskease_dashboard.png" width="150"/>
   <img src="app/src/main/res/drawable/taskease_add.png" width="150"/>
   <img src="app/src/main/res/drawable/taskease_edit.png" width="150"/>
