@@ -45,9 +45,12 @@ Meningkatkan produktivitas pelaku UMKM yang masih bergantung pada pencatatan man
 
 ## 📸 Screenshot Aplikasi
 
-| Dashboard                                                      | Tambah Tugas                                          | Edit Tugas                                           | Notifikasi                                                  |
-|----------------------------------------------------------------|-------------------------------------------------------|------------------------------------------------------|-------------------------------------------------------------|
-| ![Dashboard](app/src/main/res/drawable/taskease_dashboard.png) | ![Tambah](app/src/main/res/drawable/taskease_add.png) | ![Edit](app/src/main/res/drawable/taskease_edit.png) | ![Notif](app/src/main/res/drawable/taskease_notifikasi.png) |
+<p align="center">
+  <img src="app/src/main/res/drawable/taskease_dashboard.png" width="250"/>
+  <img src="app/src/main/res/drawable/taskease_add.png" width="250"/>
+  <img src="app/src/main/res/drawable/taskease_edit.png" width="250"/>
+  <img src="app/src/main/res/drawable/taskease_notifikasi.png" width="250"/>
+</p>
 
 ---
 
